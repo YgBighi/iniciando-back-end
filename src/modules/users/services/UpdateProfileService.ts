@@ -19,7 +19,7 @@ class UpdateProfile {
     @inject('UsersRepository')
     private usersRepository: IUsersRepository,
 
-    @inject('IHashProvider')
+    @inject('HashProvider')
     private hashProvider: IHashProvider,
   ) { }
   public async execute({ user_id, name, email, old_password, password }: IRequest): Promise<User> {

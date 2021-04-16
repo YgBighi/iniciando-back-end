@@ -104,9 +104,9 @@ describe('UpdateProfile', () => {
     })).rejects.toBeInstanceOf(AppError);
   });
 
-  it('Não existe Usuário', async () => {
+  it('should not be able update the profile from non-existing user', async () => {
     await expect(updateProfile.execute({
-      user_id: 'naoexisteusuario',
+      user_id: 'non-existing',
       name: 'Joao Marimo',
       email: 'joaomarimo@example.com',
       password: '123123',
