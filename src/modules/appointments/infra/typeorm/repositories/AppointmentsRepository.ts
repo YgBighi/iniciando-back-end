@@ -4,9 +4,12 @@ import IApointmentRepository from '@modules/appointments/repositories/IAppointme
 import ICreateAppointmentDTO from '@modules/appointments/dtos/ICreateAppointmentDTO';
 
 import { getRepository, Repository, Raw } from 'typeorm';
-import appointmentsRouter from '../../http/routes/appointments.routes';
 import IFindAllInMonthFromProviderDTO from '@modules/appointments/dtos/IFindAllInMonthFromProviderDTO';
-import IFindAllInDayFromProviderDTO from '@modules/appointments/dtos/IFindAllInMonthFromProviderDTO';
+import IFindAllInDayFromProviderDTO from '@modules/appointments/dtos/IFindAllInDayFromProviderDTO';
+
+function convertDateToUTC(date: Date) {
+  return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds()));
+}
 
 class AppointmentsRepository implements IApointmentRepository {
   private ormRepository: Repository<Appointment>;

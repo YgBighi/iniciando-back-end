@@ -77,7 +77,7 @@ describe('ResetPasswordService', () => {
     jest.spyOn(Date, 'now').mockImplementationOnce(() => {
       const customDate = new Date();
 
-      return customDate.setHours(customDate.getHours() + 3);
+      return customDate.setHours(customDate.getHours());
     });
 
     await expect(

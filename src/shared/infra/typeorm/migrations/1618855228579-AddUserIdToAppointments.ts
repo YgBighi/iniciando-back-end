@@ -22,7 +22,7 @@ export default class AddUserIdToAppointments1618855228579 implements MigrationIn
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropForeignKey('appointments', 'AppointmentProvider');
+    await queryRunner.dropForeignKey('appointments', 'AppointmentUser');
 
     await queryRunner.dropColumn('appointments', 'user_id');
   }

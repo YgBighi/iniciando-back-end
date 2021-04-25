@@ -2,13 +2,12 @@ import { injectable, inject } from 'tsyringe';
 import { getHours, isAfter } from 'date-fns';
 
 import IAppointmentsRepository from '../repositories/IAppointmentsRepository';
-import { compare } from 'bcryptjs';
 
 interface IRequest {
   provider_id: string;
+  day: number;
   month: number;
   year: number;
-  day: number;
 }
 
 type IResponse = Array<{
@@ -20,6 +19,9 @@ type IResponse = Array<{
  * [ { day: 1, available: false } ]
  */
 
+function convertDateToUTC(date: Date) {
+  return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds()));
+}
 
 @injectable()
 class ListProviderDayAvailabilityService {
@@ -41,15 +43,15 @@ class ListProviderDayAvailabilityService {
     const currentDate = new Date(Date.now());
 
     const availability = eachHourArray.map(hour => {
-      const hasAppointmentHour = appointments.find(appointment =>
-        getHours(appointment.date) == hour,
+      const hasAppointmentHour = appointments.find(
+        appointment => getHours(appointment.date) === hour,
       );
 
-      const CompareDate = new Date(year, month - 1, day, hour);
+      const compareDate = new Date(year, month - 1, day, hour);
 
       return {
         hour,
-        available: !hasAppointmentHour && isAfter(CompareDate, currentDate),
+        available: !hasAppointmentHour && isAfter(compareDate, currentDate),
       }
     });
 

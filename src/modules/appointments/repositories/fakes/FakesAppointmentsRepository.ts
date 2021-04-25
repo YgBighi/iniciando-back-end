@@ -6,8 +6,7 @@ import ICreateAppointmentDTO from '@modules/appointments/dtos/ICreateAppointment
 
 import Appointment from '../../infra/typeorm/entities/Appointments';
 import IFindAllInMonthFromProviderDTO from '@modules/appointments/dtos/IFindAllInMonthFromProviderDTO';
-import providersRouter from '@modules/appointments/infra/http/routes/providers.routes';
-import IFindAllInDayFromProviderDTO from '@modules/appointments/dtos/IFindAllInMonthFromProviderDTO';
+import IFindAllInDayFromProviderDTO from '@modules/appointments/dtos/IFindAllInDayFromProviderDTO';
 
 class AppointmentsRepository implements IApointmentRepository {
   private appointments: Appointment[] = [];
@@ -21,26 +20,24 @@ class AppointmentsRepository implements IApointmentRepository {
   }
 
   public async findAllInMonthFromProvider({ provider_id, month, year }: IFindAllInMonthFromProviderDTO): Promise<Appointment[]> {
-    const appointments = this.appointments.filter(appointment => {
-      return (
-        appointment.provider_id == provider_id &&
-        getMonth(appointment.date) + 1 == month &&
-        getYear(appointment.date) == year
-      );
-    });
+    const appointments = this.appointments.filter(
+      appointment =>
+        appointment.provider_id === provider_id &&
+        getMonth(appointment.date) + 1 === month &&
+        getYear(appointment.date) === year,
+    );
 
     return appointments;
   }
 
   public async findAllInDayFromProvider({ provider_id, day, month, year }: IFindAllInDayFromProviderDTO): Promise<Appointment[]> {
-    const appointments = this.appointments.filter(appointment => {
-      return (
-        appointment.provider_id == provider_id &&
-        getDate(appointment.date) == day &&
-        getMonth(appointment.date) + 1 == month &&
-        getYear(appointment.date) == year
-      );
-    });
+    const appointments = this.appointments.filter(
+      appointment =>
+        appointment.provider_id === provider_id &&
+        getDate(appointment.date) === day &&
+        getMonth(appointment.date) + 1 === month &&
+        getYear(appointment.date) === year,
+    );
 
     return appointments;
   }
