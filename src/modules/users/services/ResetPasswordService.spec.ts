@@ -4,6 +4,7 @@ import FakeUsersRepository from '../repositories/fake/FakeUsersRepository';
 import FakeUserTokensRepository from '../repositories/fake/FakeUserTokensRepository';
 import FakeHashProvider from '../providers/HashProvider/fakes/FakeHashProvider';
 import ResetPasswordService from './ResetPasswordService';
+import { addHours } from 'date-fns';
 
 let fakeUsersRepository: FakeUsersRepository;
 let fakeUserTokensRepository: FakeUserTokensRepository;
@@ -77,7 +78,7 @@ describe('ResetPasswordService', () => {
     jest.spyOn(Date, 'now').mockImplementationOnce(() => {
       const customDate = new Date();
 
-      return customDate.setHours(customDate.getHours());
+      return customDate.setHours(customDate.getHours())
     });
 
     await expect(

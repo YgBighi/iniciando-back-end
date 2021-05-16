@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/64</span>
+                <span class='fraction'>0/70</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/64</span>
+                <span class='fraction'>0/70</span>
             </div>
         
             
@@ -120,7 +120,19 @@
 <a name='L61'></a><a href='#L61'>61</a>
 <a name='L62'></a><a href='#L62'>62</a>
 <a name='L63'></a><a href='#L63'>63</a>
-<a name='L64'></a><a href='#L64'>64</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<a name='L64'></a><a href='#L64'>64</a>
+<a name='L65'></a><a href='#L65'>65</a>
+<a name='L66'></a><a href='#L66'>66</a>
+<a name='L67'></a><a href='#L67'>67</a>
+<a name='L68'></a><a href='#L68'>68</a>
+<a name='L69'></a><a href='#L69'>69</a>
+<a name='L70'></a><a href='#L70'>70</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -187,8 +199,10 @@
 <span class="cstat-no" title="statement not covered" >import { injectable, inject } from 'tsyringe';</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >import AppError from '@shared/errors/AppError';</span>
-<span class="cstat-no" title="statement not covered" >import { startOfHour, isBefore, getHours } from 'date-fns'</span>
+<span class="cstat-no" title="statement not covered" >import { startOfHour, isBefore, getHours, addHours } from 'date-fns'</span>
+<span class="cstat-no" title="statement not covered" >import { zonedTimeToUtc, utcToZonedTime, format } from 'date-fns-tz'</span>
 <span class="cstat-no" title="statement not covered" >import IAppointmentsRepository from '../repositories/IAppointmentsRepository';</span>
+<span class="cstat-no" title="statement not covered" >import parseJSON from 'date-fns/parseJSON';</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >interface IRequest {</span>
 <span class="cstat-no" title="statement not covered" >  provider_id: string,</span>
@@ -200,8 +214,10 @@
 <span class="cstat-no" title="statement not covered" >  return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds()));</span>
 <span class="cstat-no" title="statement not covered" >}</span>
 <span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >function convertDateToHour(date: Date) {</span>
-<span class="cstat-no" title="statement not covered" >  return date.getHours();</span>
+<span class="cstat-no" title="statement not covered" >function convertHourInTimeZoneLocal(date: Date) {</span>
+<span class="cstat-no" title="statement not covered" >  var currentTimeZoneOffsetInHours = (date.getTimezoneOffset()) / 60;</span>
+<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >  return currentTimeZoneOffsetInHours;</span>
 <span class="cstat-no" title="statement not covered" >}</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >@injectable()</span>
@@ -213,6 +229,8 @@
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >  public async execute({ date, provider_id, user_id }: IRequest): Promise&lt;Appointment&gt; {</span>
 <span class="cstat-no" title="statement not covered" >    const appointmentDate = startOfHour(date);</span>
+<span class="cstat-no" title="statement not covered" >    // const dateNow = convertDateToUTC(new Date(Date.now()));</span>
+<span class="cstat-no" title="statement not covered" >    // const getHoursInUTC = getHours(appointmentDate) + convertHourInTimeZoneLocal(appointmentDate);</span>
 <span class="cstat-no" title="statement not covered" ></span>
 <span class="cstat-no" title="statement not covered" >    if (isBefore(appointmentDate, Date.now())) {</span>
 <span class="cstat-no" title="statement not covered" >      throw new AppError("You can't create an appointment on a past date.");</span>
@@ -253,7 +271,7 @@
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Fri Apr 23 2021 16:32:29 GMT-0300 (Horário Padrão de Brasília)
+                at Sun May 16 2021 14:16:02 GMT-0300 (Horário Padrão de Brasília)
             </div>
         </div>
         <script src="../../prettify.js"></script>
