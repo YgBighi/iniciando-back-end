@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import '@shared/index';
+import '@shared/infra/typeorm/index';
 import '@shared/container';
 
 import express, { NextFunction, Request, Response } from 'express';
