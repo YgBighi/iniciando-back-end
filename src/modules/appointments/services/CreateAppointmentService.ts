@@ -2,10 +2,9 @@ import Appointment from '../infra/typeorm/entities/Appointments';
 import { injectable, inject } from 'tsyringe';
 
 import AppError from '@shared/errors/AppError';
-import { startOfHour, isBefore, getHours, addHours } from 'date-fns'
-import { zonedTimeToUtc, utcToZonedTime, format } from 'date-fns-tz'
+import { startOfHour, isBefore, getHours, format } from 'date-fns'
 import IAppointmentsRepository from '../repositories/IAppointmentsRepository';
-import parseJSON from 'date-fns/parseJSON';
+import INotificationsRepository from '@modules/notifications/repositories/INotificationsRepository';
 
 interface IRequest {
   provider_id: string,
@@ -27,7 +26,10 @@ function convertHourInTimeZoneLocal(date: Date) {
 class CreateAppointmentService {
   constructor(
     @inject('AppointmentsRepository')
-    private appointmentsRepository: IAppointmentsRepository
+    private appointmentsRepository: IAppointmentsRepository,
+
+    @inject('NotificationsRepository')
+    private notificationsRepository: INotificationsRepository
   ) { }
 
   public async execute({ date, provider_id, user_id }: IRequest): Promise<Appointment> {
@@ -61,6 +63,13 @@ class CreateAppointmentService {
       provider_id,
       user_id,
       date: appointmentDate,
+    });
+
+    const dateFormatted = format(appointmentDate, "dd/MM/yyyy 'às' HH:mm'h'");
+
+    await this.notificationsRepository.create({
+      recipient_id: provider_id,
+      content: `Novo agendamento para dia ${dateFormatted}`,
     });
 
     return appointment;
